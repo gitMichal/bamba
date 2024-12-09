@@ -75,12 +75,12 @@ python -m fms_mo.run_quant \
     --output_dir <"path_to_save_new_model">
 ```
 Model size comparison before and after FP8:
-|memory usage (GB)|Before|After |
+||original|quantized |
 |:----:|----:|----:|
-|total|39.12|10.83| 
-|break-down|`torch.float32` 39.12|`torch.bfloat16` 2.10<br>`torch.float8_e4m3fn`    8.73|
+|memory (total)|39.12 GB|10.83 GB| 
+|memory (break-down)|`torch.float32` 39.12 GB|`torch.bfloat16` 2.10 GB<br>`torch.float8_e4m3fn`    8.73 GB|
 
-More details can be found in [this README](https://github.com/foundation-model-stack/fms-model-optimizer/tree/main/examples/FP8_QUANT#quickstart) of `fms-model-optimizer`.
+More details about `fms-model-optimizer` can be found [here](https://github.com/foundation-model-stack/fms-model-optimizer/tree/main/examples/FP8_QUANT#quickstart).
 
 ## Evaluation
 
