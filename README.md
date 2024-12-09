@@ -66,7 +66,7 @@ contributed [HF-version of Mamba2-Hybrid]() (TODO: add link once live).
 ## Fine-tuning
 
 ## Quantization
-We can create a (FP8) quantized model using `fms-model-optimizer`, which will make the storage and inference even more efficient.
+We can create a (FP8) quantized model using [`fms-model-optimizer`](https://github.com/foundation-model-stack/fms-model-optimizer/), which will make the storage and inference even more efficient.
 ```python
 python -m fms_mo.run_quant \
     --model_name_or_path <"path_to_original_model"> \
@@ -74,20 +74,13 @@ python -m fms_mo.run_quant \
     --torch_dtype bfloat16 \
     --output_dir <"path_to_save_new_model">
 ```
-Model size before FP8:
-```
-               layer      mem (MB)
-dtype                             
-torch.float32    407  39120.941568
-```
-After FP8
-```
-                     layer     mem (MB)
-dtype                                  
-torch.bfloat16         407  2104.826444
-torch.float8_e4m3fn    166  8727.822336
-```
-More details can be found in the README of `fms-model-optimizer` [here](https://github.com/foundation-model-stack/fms-model-optimizer/tree/main/examples/FP8_QUANT#quickstart).
+Model size comparison before and after FP8:
+|memory usage (GB)|Before|After |
+|:----:|----:|----:|
+|total|39.12|10.83| 
+|break-down|`torch.float32` 39.12|`torch.bfloat16` 2.10<br>`torch.float8_e4m3fn`    8.73|
+
+More details can be found in [this README](https://github.com/foundation-model-stack/fms-model-optimizer/tree/main/examples/FP8_QUANT#quickstart) of `fms-model-optimizer`.
 
 ## Evaluation
 
