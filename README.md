@@ -65,6 +65,9 @@ contributed [HF-version of Mamba2-Hybrid]() (TODO: add link once live).
 
 ## Fine-tuning
 
+This [example](./tuning/Fine-tuning.md) shows how to fine tune the bamba model for a specific task using [SFT Trainer](https://huggingface.co/docs/trl/en/sft_trainer#supervised-fine-tuning-trainer).
+
+                           
 ## Quantization
 We can create a (FP8) quantized model using [`fms-model-optimizer`](https://github.com/foundation-model-stack/fms-model-optimizer/), which will make the storage and inference even more efficient.
 ```python
