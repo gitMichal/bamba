@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-        🤗 <a href="https://huggingface.co/ibm-fms/Avengers-Mamba2-9B"> Bamba on Hugging Face</a>&nbsp | <a href="TODO"> Bamba Blog</a>&nbsp
+        🤗 <a href="https://huggingface.co/collections/ibm-fms/bamba-674f1388b9bbc98b413c7bab"> Bamba on Hugging Face</a>&nbsp | <a href="https://github.com/foundation-model-stack/bamba/blob/main/blog/bamba-9b-release.md"> Bamba Blog</a>&nbsp
 <br>
 
 Bamba is a repository for training and using [Bamba](https://huggingface.co/ibm-fms/Avengers-Mamba2-9B) models which are based on [Mamba](https://github.com/state-spaces/mamba) models.
