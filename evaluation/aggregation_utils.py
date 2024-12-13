@@ -25,9 +25,12 @@ def handle_duplicates(res_df):
                 & (duplicates.index != index)
             ]["score"].tolist()
 
-            if not all(
-                (abs(s - score) < (s / 100))
-                for s in other_scores  # difference is smaller than 1%
+            if (
+                not all(
+                    (abs(s - score) < (s / 100))
+                    for s in other_scores  # difference is smaller than 1%
+                )
+                and score != 0.0
             ):  # Check consistency across *all* duplicates, not just pairwise
                 raise ValueError(
                     f"Inconsistent scores found for model '{model}' and scenario '{scenario}'. Scores: {score}, {other_scores}"
