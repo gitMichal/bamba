@@ -102,7 +102,7 @@ Our current progression of integration into vLLM can be tracked via [this PR](ht
 | **Figure 1:** Throughput improvements of Bamba | **Figure 2:** Latency improvements of Bamba |
 
 
-Our analysis indicates that on a H100 NVIDIA GPU, we expect 4-5x speedup when inference shifts to a memory bottleneck (which typically happens in production settings). However, we have not realized that in vLLM because of two primary reasons: (i) chunked pre-fill is not supported for Bamba and any Mamba2 based architectures, (ii) memory allocation is assuming standard transformer KV-cache, and (iii) kernels are not optimized for inference. These issues are being tracked [here](https://github.com/foundation-model-stack/bamba/issues/3).
+Our analysis indicates that on a H100 NVIDIA GPU, we expect 4-5x speedup when inference shifts to a memory bottleneck (which typically happens in production settings) - see section on **Arithmetic Intensity**. However, we have not realized that in vLLM because of two primary reasons: (i) chunked pre-fill is not supported for Bamba and any Mamba2 based architectures, (ii) memory allocation is assuming standard transformer KV-cache, and (iii) kernels are not optimized for inference. These issues are being tracked [here](https://github.com/foundation-model-stack/bamba/issues/3).
 
 ## Model architecture
 We base our model architecture on the NVIDIA Hybrid Mamba2 with the following changes.
