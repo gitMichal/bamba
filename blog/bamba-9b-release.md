@@ -233,7 +233,7 @@ At decode stage the compute and memory (read + write) requirements imposed by th
 | attention | $26bh^2l + 4bshl$ | $13h^2l + 0.5bshl$ |
 | bamba |  $31bh^2l + 4bshl_{attn} + 4bdhl_{ssd}$ | $15.5h^2l + 0.5bshl_{attn} + 4bdhl_{ssd}$|
 
-A comparison of compute flops during prefill stage and memory (read+write) sizes during decode stage between Bamba and LLaMa models is shown below. Note that ratios lesser than 1 are beneficial.
+A comparison of compute flops during prefill stage and memory (read+write) sizes during decode stage between Bamba and LLaMa models is shown below. Note that ratios lesser than 1 are beneficial. With inference throughput primarily bottlenecked by decode stage, the potential speedup for Bamba (over LLaMa) is 5x for large sequence lengths. Current measurements (on vLLM) hover at 2.5x, which we expect to improve in the near future. 
 <p align="center">
   <img src="images/ArithmeticIntensity.png" alt="ArithmeticIntensity" width="524" height="336">
 </p>
