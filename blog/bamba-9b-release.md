@@ -204,3 +204,36 @@ There are several directions that we intend to explore and further these inferen
 
 
 Finally, we would like to thank our leadership for their support in this effort - Priya Nagpurkar, David Cox, Sriram Raghavan, Aya Soffer, and Mukesh Khare.
+
+## Arithmetic Intensity
+Using the following notation:\
+$b$: batch size\
+$s$: sequence length\
+$h$: hidden state size (4096)\
+$d$: head dimension (128)\
+$l$: total number of layers (32)\
+$l_{attn}$: number of attention layers (3)\
+$l_{ssd}$: number of SSD layers (29)
+
+Both the attention and bamba models are configured with GQA of 4:1 (in the attention layers), MLP expansion ratio of 3.5 and use GLU in MLP block. The SSD layer in bamba is configured with state dimension of $d$, head dimension of $d/2$ and number of heads = $4h/d$. Model size excluding the embedding layer is:
+| Model Type | Model Size | 
+|------------|------------|
+| attention | $13h^2l$ |
+| bamba | $15.5h^2l$ |
+
+At prefill stage the compute and memory (read + write) requirements imposed by the model are:
+| Model Type | Compute Prefill | Memory Prefill |
+|------------|-----------------|----------------|
+| attention | $26bsh^2l + 4bs^2hl$ | $13h^2l + 0.5bshl$ |
+| bamba |  $31bsh^2l + 4bs^2hl_{attn} + 4bsdhl_{ssd}$ | $15.5h^2l + 0.5bshl_{attn} + 4bdhl_{ssd}$|
+
+At decode stage the compute and memory (read + write) requirements imposed by the model are:
+| Model Type | Compute Decode | Memory Decode |
+|------------|-----------------|----------------|
+| attention | $26bh^2l + 4bshl$ | $13h^2l + 0.5bshl$ |
+| bamba |  $31bh^2l + 4bshl_{attn} + 4bdhl_{ssd}$ | $15.5h^2l + 0.5bshl_{attn} + 4bdhl_{ssd}$|
+
+A comparison of compute flops during prefill stage and memory (read+write) sizes during decode stage between Bamba and LLaMa models is shown below. Note that ratios lesser than 1 are beneficial.
+<p align="center">
+  <img src="images/ArithmeticIntensity.png" alt="ArithmeticIntensity" width="524" height="336">
+</p>
