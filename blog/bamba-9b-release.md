@@ -31,7 +31,7 @@ Several Mamba based architecture models have started coming up in the last 6 mon
   
 | Benchmark score   | Bamba 9B   | NVIDIA Mamba2 Hybrid 8B* | Zamba 7B   | Falcon Mamba 7B   |
 |-------------------|------------|-------------------------|------------|-------------------|
-| MMLU (5-Shot)      | 60.77      | 53.6                   | 57.85      | **63.19**         |
+| MMLU      | 60.77      | 53.6                   | 57.85      | **63.19**         |
 | Hellaswag         | 81.8       | 77.69                  | **82.27**  | 80.82             |
 | Winogrande        | 76.87      | 71.27                  | **79.32**  | 78.14             |
 | Piqa              | 82.26      | 79.65                  | 82.21      | **83.62**         |
@@ -49,45 +49,46 @@ We pick a few promiment models: Olmo 7B trained on identical data (2024), Meta L
 
 | Benchmark score   | Bamba 9B   | Olmo1.5 7B   | Bamba 9B (2T) | Meta Llama2 7B   | IBM Granite 7B   |
 |-------------------|------------|--------------|------------------|------------------|------------------|
-| MMLU (5-Shot)     | **60.77**  | 53.39        | 59.05 | 46.87            | 49.02            |
+| MMLU     | **60.77**  | 53.39        | 59.05 | 46.87            | 49.02            |
 | Hellaswag         | 81.8   | 78.65        | **83.66** | 78.59            | 77.0             |
 | Winogrande        | 76.87  | 72.77        | **79.40** | 74.03            | 70.17            |
 | Piqa              | 82.26  | 78.4         | **83.62** | 79.0             | 80.14            |
 | OpenbookQA        | 47.6       | **50.2**     | 47.60 | 44.0             | 40.8             |
 | ARC-C             | **63.23**  | 48.5         | 57.25 | 53.07            | 49.91            |
 | TruthfulQA        | **49.21**  | 36.0         | 38.26 | 38.76            | 38.7             |
-| **Average**       | **65.96**  | 59.7         | 64.12 | 59.19            | 57.96            |
+| **Average**       | **65.96**      | 59.7        | 64.12           | 59.19            | 57.96            |
 
 ### Comparison with SoTA transformer models
 
-Finally, we compare with SoTA transformer models (Meta Llama 3.1 8B, IBM Granite v3 8B, and Olmo2 7B). For the missing benchmark results in HF leaderboard, we rerun the benchmarks (marked with a *). We observe that while there are obvious benchmark gaps, it is not clear that these gaps can be attributed to the defficiencies of the mamba architecture. In fact, a careful analysis of results shows that gaps are largly due to amount of data used for training models and inclusion of benchmark-aligned instruction datasets during the annealing phase. For example, we had one small scale run that added `metamath` and improved our `GSM8k` score from `36.77` to `60.0`.
+Finally, we compare Bamba and Falcon Mamba with SoTA transformer models (Meta Llama 3.1 8B, IBM Granite v3 8B, Olmo2 7B, and Gemma2 9B). We observe that while there are obvious benchmark gaps, it is not clear that these gaps can be attributed to the deficiencies of the mamba architecture. In fact, a careful analysis of results shows that gaps are largly due to amount of data used for training models and inclusion of benchmark-aligned instruction datasets during the annealing phase. For example, we had one small scale run that added `metamath` and improved our `GSM8k` score from `36.77` to `60.0`.
 
 [HF LLM- V1](https://huggingface.co/docs/leaderboards/en/open_llm_leaderboard/archive) + OpenbookQA and PIQA :
 
-| Benchmark score | Bamba 9B | Falcon Mamba 7B | Meta Llama 3.1 8B | IBM Granite v3 8B | Olmo2 7B |
-|-----------------|----------|------------------|-------------------|-------------------|-----------|
-| MMLU           | 60.77    | 63.19           | **66.26**         | 65.45             | 63.96     |
-| Hellaswag      | 81.80    | 80.82           | 81.98             | **83.29**         | 81.93     |
-| Winogrande     | 76.87    | 78.14           | 77.51             | **80.82**         | 77.03     |
-| ARC-C          | 63.23    | 63.40           | 57.85             | 63.74             | **64.51** |
-| TruthfulQA     | 49.21    | **53.46**       | 45.16             | 52.89             | 43.32     |
-| GSM8K          | 36.77    | 52.08           | 49.96             | 62.55             | **68.01** |
-| Piqa           | 82.26    | **83.62**       | 82.54             | 82.41             | 81.39     |
-| OpenbookQA     | 47.60    | 47.80           | 46.80             | 47.60             | **49.20** |
-| **Average**    |   63.93    |   66.73         |    65.06        |   **68.95**           |     67.37   |
+| Benchmark score | Bamba 9B | Falcon Mamba 7B | Meta Llama 3.1 8B | IBM Granite v3 8B | Olmo2 7B | Gemma2 9B |
+|-----------------|----------|------------------|-------------------|-------------------|-----------|---------|
+| MMLU           | 60.77    | 63.19           | 66.26         | 65.45             | 63.96     | **72.29** |
+| Hellaswag      | 81.80    | 80.82           | 81.98             | **83.29**         | 81.93     | 82.56 |
+| Winogrande     | 76.87    | 78.14           | 77.51             | **80.82**         | 77.03     | 80.11 |
+| ARC-C          | 63.23    | 63.40           | 57.85             | 63.74             | 64.51 | **68.26** |
+| TruthfulQA     | 49.21    | **53.46**       | 45.16             | 52.89             | 43.32     | 45.39 |
+| GSM8K          | 36.77    | 52.08           | 49.96             | 62.55             | **68.01** | 67.40 |
+| Piqa           | 82.26    | **83.62**       | 82.54             | 82.41             | 81.39     | 83.24 |
+| OpenbookQA     | 47.60    | 47.80           | 46.80             | 47.60             | **49.20** | 47.80 |
+| Average | 62.31 |	65.31 | 63.5 | 67.34 | 66.17 |	**68.38** |
+
+
 
 [HF LLM- V2](https://huggingface.co/docs/leaderboards/open_llm_leaderboard/about)** :
 
-| Benchmark score | Bamba 9B | Falcon Mamba 7B | Meta Llama 3.1 8B | IBM Granite v3 8B | Olmo2 7B |
-|-----------------|----------|------------------|-------------------|-------------------|-----------|
-| MMLU PRO       | 17.53    | 14.33           | 25.46             | **25.83**         | 22.79     |
-| BBH            | 17.40    | 19.88           | 25.16             | **28.02**         | 21.69     |
-| MuSR           | 9.59     | 9.88            | 8.72              | 9.32              | **10.02** |
-| GPQA           | 4.14     | 8.17            | 8.61              | **9.06**          | 4.92      |
-| MathLvl5       | 1.66     | 4.0             | 5.14              | **9.82**          | 4.38      |
-| **Average**    |   10.06   |    11.25       |    14.61     |   **16.41**        |   12.78   |  
-
-\** IFEVAL, an instruction following task is less relevant in this setting and thus is intentionally excluded.
+| Benchmark score | Bamba 9B | Falcon Mamba 7B | Meta Llama 3.1 8B | IBM Granite v3 8B | Olmo2 7B | Gemma2 9B |
+|-----------------|----------|------------------|-------------------|-------------------|-----------|--------|
+| MMLU PRO       | 17.53    | 14.33           | 25.46             | 25.83         | 22.79     | **34.84** |
+| BBH            | 17.40    | 19.88           | 25.16             | 28.02         | 21.69     | **34.81** |
+| MuSR           | 9.59     | 9.88            | 8.72              | 9.32              | **10.02** | **15.3** |
+| GPQA           | 4.14     | 8.17            | 8.61              | 9.06          | 4.92      | **11.07** |
+| MathLvl5       | 1.66     | 4.0             | 5.14              | 9.82          | 4.38      | **13.44** |
+| IFEval | 15.16 | 31.93 | 12.55 | 44.79 | 16.35 | 21.28 |
+| **Average**    |   10.91   |    14.70       |    14.27     |   21.14        |   13.35   |  **21.79** |
 
 We invite the community to help improve the model further and identify any fundamental limitations in this inference efficient model.
 
