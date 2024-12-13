@@ -72,7 +72,7 @@ def parse_args():
     )
 
     parser.add_argument(
-        "--models",
+        "--model_ids",
         nargs="+",
         default=[],
         help="List of model names to evaluate. (default: [])",
@@ -160,15 +160,21 @@ def run_job(model_id, task_to_run, args):
             f"{len(subtasks_to_run)} subtasks left to run"
         )
 
+    model_engine = "hf" if "vllm/" not in model_id else "vllm"
+    model_id = model_id.replace("vllm/", "")
+
     model_args = f"pretrained={model_id},"
-    if args.fp_precision == 16:
-        model_args += "dtype=float16"
-    elif args.fp_precision in [8, 4]:
-        model_args += f"load_in_{args.fp_precision}_bit=True"
-    else:
+    if model_engine == "hf":
+        if args.fp_precision == 16:
+            model_args += "dtype=float16"
+        elif args.fp_precision in [8, 4]:
+            model_args += f"load_in_{args.fp_precision}_bit=True"
         raise NotImplementedError(
             f"current precision {args.fp_precision} is not supported, only [4,8,16]"
         )
+    elif model_engine == "vllm":
+        if args.fp_precision == 8:
+            model_args += "quantization=fp8"
 
     command = [
         "jbsub",
@@ -187,6 +193,8 @@ def run_job(model_id, task_to_run, args):
         f"HF_HOME={cache_dir}",
         args.python_executable,
         os.path.join(args.path_to_lmeval, "lm_eval"),
+        "--model",
+        model_engine,
         "--model_args",
         model_args,
         "--batch_size",
@@ -220,7 +228,7 @@ if __name__ == "__main__":
     args = parse_args()
 
     signal.signal(signal.SIGINT, signal_handler)
-    models_to_run = args.models.copy()
+    models_to_run = args.model_ids.copy()
     job_ids = []
 
     # Create output directory if it doesn't exist
@@ -230,7 +238,7 @@ if __name__ == "__main__":
     setup_logging(args.output_dir_path)
 
     job_id2model = {}
-    for model in models_to_run:
+    for model_id in models_to_run:
         runs_per_model = 0
         for benchmark in args.benchmarks:
             tasks_to_run = runner_tasks[benchmark]
@@ -238,8 +246,8 @@ if __name__ == "__main__":
                 if runs_per_model > 0 and args.debug_run_single_task_per_model:
                     continue
 
-                job_id = run_job(model, task_to_run, args)
-                job_id2model[job_id] = model
+                job_id = run_job(model_id, task_to_run, args)
+                job_id2model[job_id] = model_id
 
                 if job_id:
                     job_ids.append(job_id)
