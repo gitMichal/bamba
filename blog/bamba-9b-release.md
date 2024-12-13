@@ -21,7 +21,7 @@ We break our evaluations into three parts:
 
 We rerun all the benchmarks for benchmarking all models except the NVIDIA Hybird Mamba model  where we use the output from the Live leaderboard (we could not run this for NVIDIA Hybird Mamba model as the model weights are not in Hugging Face transformers compatible format, hence we report the numbers from the paper). For the v2 leaderboard results, we perform [normalization](https://huggingface.co/docs/leaderboards/open_llm_leaderboard/normalization) and report the normalized results.
 
-TL;DR
+### TL;DR
 We find that Bamba-9B adds another proofpoint to the compititive performance of hybrid mamba models vis-a-vis transformer models. Compared to SoTA transformer models, Bamba 9B has gaps in math benchmarks and MMLU (without these benchmarks, the average scores are nearly equal to Meta Llama 3.1 8B with 48.01 and 48.22 as the averages). Our experiments show that this gap can be closed by (a) training Bamab-9B for more tokens (MMLU has steadily increased during pretraining); and (b) including quality math data during pretraining/annealing phases. Given these findings, we plan to continue pretraining the current versions with newer datasets such as [Olmo2 mix](https://huggingface.co/datasets/allenai/olmo-mix-1124), and anneal them using benchmark-aligned annealing data mixes such as [Dolmino mix](https://huggingface.co/datasets/allenai/dolmino-mix-1124).
 
 Bamba-9B results also dispell any concerns that one might have from relatively low-scoring NVIDIA Hybrid Mamba2 model in leaderboard benchmarks. Recall that NVIDIA Hybrid Mamba2 model was trained on an older data mix and the goal of the study was to compare different model architectures by training them on the same data mix. In line with the findings of NVIDIA Hyrbid Mamba2 study, Bamba-9B adds further evidence that Hyrbid Mamba2 architecture provides competitive performance while providing inference efficiencies that could be as large as 4x. 
@@ -187,7 +187,7 @@ There are several directions that we intend to explore and further these inferen
 1. [Hugging Face Bamba collection](https://huggingface.co/collections/ibm-fms/bamba-674f1388b9bbc98b413c7bab)
 2. [GitHub repo](https://github.com/foundation-model-stack/bamba)
 3. [Dataloader](https://github.com/foundation-model-stack/fms-fsdp/blob/main/fms_fsdp/utils/dataset_utils.py)
-4. [Transformers]()
+4. [Transformers PR](https://github.com/huggingface/transformers/pull/34982)
 5. [vLLM PR](https://github.com/vllm-project/vllm/pull/10909)
 6. [Quantization](https://github.com/foundation-model-stack/fms-model-optimizer)
 7. [Auto-pilot](https://github.com/IBM/autopilot)
