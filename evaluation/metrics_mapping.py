@@ -65,6 +65,7 @@ scenario2metric = {
     # Other
     "piqa": "acc_norm",
     "openbookqa": "acc_norm",
+    "boolq": "acc",
     # Safety
     "ethos_binary_temp_2_few_shot_0": "f1_macro",
     "ethos_binary_temp_2_few_shot_5": "f1_macro",
