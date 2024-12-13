@@ -1,4 +1,4 @@
-# .venv/bin/streamlit run evaluation/serve_results.py --server.port 8091 -- --output_dir_path /dccstor/eval-research/code/bamba/evaluation/evaluation_results
+# .venv/bin/streamlit run evaluation/serve_results.py --server.port 8091 -- --output_dir_path /dccstor/eval-research/code/bamba/evaluation/evaluation_results --res_dirs Bamba_eval Bamba_eval_last_models safety_full
 
 import os
 
