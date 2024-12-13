@@ -1,3 +1,12 @@
+def get_pretty_name(name: str):
+    if name in name2tag:
+        out = name2tag[name]
+    else:
+        out = name.capitalize()
+
+    return out
+
+
 name2tag = {
     "mmlu": "MMLU",
     "hellaswag": "Hellaswag",
@@ -13,4 +22,5 @@ name2tag = {
     "gpqa": "GPQA",
     "math_hard": "MATH Lvl 5",
     "ifeval": "IFEval",
+    "toxigen": "Toxigen",
 }

@@ -6,7 +6,7 @@ import os
 import pandas as pd
 from metrics_mapping import scenario2metric
 from normalizations import get_hfv2_noramlized_scores, hfv2_tasks, needs_normalization
-from pretty_names import name2tag
+from pretty_names import get_pretty_name
 
 from evaluation.aggregation_utils import handle_duplicates
 
@@ -94,7 +94,7 @@ def get_results_df(res_dir_paths, results_from_papers_path):
     )
     df_from_papers = df_from_papers.dropna()
 
-    res_df["scenario"] = res_df["scenario"].apply(lambda x: name2tag[x])
+    res_df["scenario"] = res_df["scenario"].apply(lambda x: get_pretty_name(x))
     res_df = pd.concat([res_df, df_from_papers])
 
     if len(res_df[res_df.duplicated(subset=["model", "scenario"])]) > 0:
